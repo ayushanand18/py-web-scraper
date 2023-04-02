@@ -1,4 +1,6 @@
 # Development Notes
+> This document details the development experience of the script including the steps while setting up and the challenges faced during the process.
+
 ## Poetry Package
 + The python script is created as a `poetry` package so that it is easier to manage dependencies and environment.
 + The script fetches all the articles on theverge.com and dumps them into a .sqlite DB.
