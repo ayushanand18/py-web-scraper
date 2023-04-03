@@ -1,10 +1,12 @@
 """
 Methods to scrape theverge.com for articles
 """
-from bs4 import BeautifulSoup
 import csv
+import sqlite3
 from datetime import datetime
+
 import requests
+from bs4 import BeautifulSoup
 
 class VergeResponse(object):
     """
@@ -19,18 +21,20 @@ class VergeResponse(object):
         with some user-agent string of a real device.
     VergeResonse.__currCount: current Count of records in the DB
     """
-    def __init__(self):
+    def __init__(self, offset: int, db_instance: str):
         """
         Initialising the object's required data members
         """
         self.FEED_URL = "https://www.theverge.com/rss/index.xml"
         self.data = None
         self.last_updated = None
+        self.offset_records = offset
+        self.db_instance = db_instance
 
         # private data members
         self.__request_header = {"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.46"}
 
-    def fetch_articles(self, offset: int) -> None:
+    def fetch_articles(self) -> None:
         """
         Fetch Articles from The Verge in the form of a list of dictionaries
 
@@ -48,14 +52,16 @@ class VergeResponse(object):
                 authors.append(author.text)
             
             articleData = {
-                "id": offset,
+                "id": self.offset_records,
                 "url": entry.id.text,
                 "authors": authors,
                 "headline": entry.title.text,
                 "date": entry.published.text[:10].replace("-", "/"),
             }
+            self.offset_records += 1
             results.append(articleData)
         self.data = results
+        self.offset_records += results.__len__()
     
     def export_to_csv(self, file_path: str) -> None:
         """
@@ -64,6 +70,10 @@ class VergeResponse(object):
         :param file_path: [String] The location to save CSV File to. File name will be auto-generated.
         :return: None. Saves the data as CSV file at file_path location.
         """
+        if not self.data:
+            print("Fetch the data first before dumping into CSV file.")
+            return
+
         file_name = f"{file_path}/{datetime.strftime(self.last_updated, '%d%m%Y')}_verge.csv"
         keys = self.data[0].keys()
         try:
@@ -76,6 +86,28 @@ class VergeResponse(object):
     
     def dump_to_db(self) -> None:
         """
-        Dump fetched responses to a .sqlite DB
+        Dump fetched responses to a specified .sqlite DB
         """
-        pass
+        if not self.data:
+            print("Fetch the data first before dumping into SQLITE DB.")
+            return
+        
+        con = sqlite3.connect(self.db_instance)
+        cur = con.cursor()
+        try:
+            cur.execute("CREATE TABLE articles(id PRIMARY KEY, url, authors, headline, date DATE);")
+        except:
+            print("Table already present.")
+        
+        for entry in self.data:
+            cur.execute(
+                """INSERT INTO articles VALUES (?,?,?,?,?);""",
+                (entry["id"], entry["url"], handlestr(entry["authors"]), entry["headline"], entry["date"])
+                )
+            con.commit()
+
+def handlestr(x: list) -> str:
+    result = ""
+    for element in x:
+        result += " " + str(element)
+    return result
