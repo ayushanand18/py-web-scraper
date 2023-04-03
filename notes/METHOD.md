@@ -13,6 +13,8 @@
 ## Chosen Method
 
 ### Algorithm
+1. Get the latest RSS Feed of [theverge.com](https://www.theverge.com/rss/index.xml) by a simple GET request.
+2. Parse the response using `lxml` package.
 
 ## Discussion and Conclusion
 
