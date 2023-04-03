@@ -105,8 +105,12 @@ class VergeResponse(object):
                 (entry["id"], entry["url"], handlestr(entry["authors"]), entry["headline"], entry["date"])
                 )
             con.commit()
+        con.close()
 
 def handlestr(x: list) -> str:
+    """
+    A utility function to help desolve python list into space seperated list of strings
+    """
     result = ""
     for element in x:
         result += " " + str(element)
