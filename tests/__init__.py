@@ -1,7 +1,7 @@
 """
 Tests for VergeResponse Scraper Class
 """
-from scraper.api.main import VergeResponse
+from scraper.api._main import VergeResponse
 
 response = VergeResponse(0, "test.sqlite")
 

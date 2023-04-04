@@ -5,7 +5,8 @@ import sqlite3
 from flask import Flask
 from flask import request
 from flask import send_file
-from main import VergeResponse
+
+from ._main import VergeResponse
 
 app = Flask(__name__)
 
@@ -68,3 +69,6 @@ def get_data():
         return results
     except:
         return "No data found."
+
+if __name__ == '__main__':
+    app.run()
