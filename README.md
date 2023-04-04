@@ -9,7 +9,7 @@ Please read the [development notes](./notes/DEVELOPMENT.md) and the [METHOD](./n
 + [x] Store these in a CSV file titled `ddmmyyyy_verge.csv`, with the following header `id, URL, headline, author, date`.
 + [x] Create an SQLite database to store the same data, and make sure that the id is the primary key
 + [ ] Run this script on a cloud service (preferably AWS)
-+ [ ] Save the articles (and de-duplicate them) daily on the server in a SQL Database
++ [x] Save the articles (and de-duplicate them) daily on the server in a SQL Database
 
 ## Requirements
 ### `csv` file format

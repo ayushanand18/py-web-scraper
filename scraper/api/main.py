@@ -15,8 +15,10 @@ class VergeResponse(object):
     VergeResponse.FEED_URL: contains the URL to the RSS FEED
     VergeResponse.data: The fetched articles metadata as a Pandas DataFrame Object
     VergeResponse.last_updated: The time at which the content was last updated
+    VergeResponse.offset_records: The row numbers to skip for setting the record ID correctly
+    VergeResponse.db_instance: The SQLITE DB Instance to connect to
 
-    Private Data Members
+    # Private Data Members
     VergeResponse.__request_headers: Query Request Headers to avoid being detected as a bot by the URI
         with some user-agent string of a real device.
     VergeResonse.__currCount: current Count of records in the DB
@@ -61,7 +63,6 @@ class VergeResponse(object):
             self.offset_records += 1
             results.append(articleData)
         self.data = results
-        self.offset_records += results.__len__()
     
     def export_to_csv(self, file_path: str) -> None:
         """
@@ -100,6 +101,12 @@ class VergeResponse(object):
             print("Table already present.")
         
         for entry in self.data:
+            # to acheive data non-redundancy, we will perform entry check
+            if cur.execute(
+                """SELECT * FROM articles WHERE url=(?) AND authors=(?) AND headline=(?) AND date=(?);""",
+                (entry["url"], handlestr(entry["authors"]), entry["headline"], entry["date"])).fetchone() is not None:
+                continue
+        
             cur.execute(
                 """INSERT INTO articles VALUES (?,?,?,?,?);""",
                 (entry["id"], entry["url"], handlestr(entry["authors"]), entry["headline"], entry["date"])
