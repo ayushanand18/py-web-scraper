@@ -10,3 +10,4 @@
 + Deploying this service on AWS is a good choice but I hit wall on this because setting up an instance on AWS requires a valid payment method (which I lack, and students discounts are also gone).
     + So, I deployed this service on Vercel as a cron-job which would run at 22:00 UTC -04:00 (i.e. 07:30 UTC +05:30) everyday.
     + Since SQLite is a serverless DB written in C, it essentially needs no server to be setup. It is stored as as a disk file in binary format.
++ While using the RSS Feed URL provided by Verge, it worked fine on till 4th April. However, on 5th April the domain stareted to redirect to an AWS S3 URL, and access curtailed. So, we created I switched the RSS Feed URL. Finally, the service deployed started working again.
