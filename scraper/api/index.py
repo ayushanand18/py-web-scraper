@@ -38,7 +38,6 @@ def fetch_articles():
         response.fetch_articles()
         response.export_to_csv("data/.")
         response.dump_to_db()
-        return "okay3"
     except:
         return "An exception occurred while running the service."
     return "Successfully Updated Articles"

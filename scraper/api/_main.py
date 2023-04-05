@@ -27,7 +27,10 @@ class VergeResponse(object):
         """
         Initialising the object's required data members
         """
-        self.FEED_URL = "https://www.theverge.com/rss/index.xml"
+        # self.FEED_URL = "https://www.theverge.com/rss/index.xml"
+        # The original RSS feed from theverge.com was working upto 3rd Apr, after which 
+        # they started redirecting and put restrictions on
+        self.FEED_URL = "https://rss.app/feeds/5pmBQpHQoGcYYr29.xml"
         self.data = None
         self.last_updated = None
         self.offset_records = offset
@@ -44,21 +47,17 @@ class VergeResponse(object):
         """
         response = requests.get(self.FEED_URL, headers = self.__request_header, timeout=300)
         parsed = BeautifulSoup(response.text, features="xml")
-
-        self.last_updated = datetime.strptime(parsed.feed.updated.text, "%Y-%m-%dT%H:%M:%S%z")
+        feed = parsed.rss.channel
+        self.last_updated = datetime.strptime(feed.lastBuildDate.text, "%a, %d %b %Y %H:%M:%S GMT")
         
         results = []
-        for entry in parsed.feed.findAll("entry"):
-            authors = []
-            for author in entry.author.findAll("name"):
-                authors.append(author.text)
-            
+        for entry in feed.findAll("item"):            
             articleData = {
                 "id": self.offset_records,
-                "url": entry.id.text,
-                "authors": authors,
-                "headline": entry.title.text,
-                "date": entry.published.text[:10].replace("-", "/"),
+                "url": entry.link.text,
+                "authors": entry.find("dc:creator").text,
+                "headline": entry.title.text[10:-4],
+                "date": entry.pubDate.text,
             }
             self.offset_records += 1
             results.append(articleData)
