@@ -54,6 +54,7 @@ We chose Method 1 (to directly ping to the RSS Feed) not because the method was 
 3. If not present, insert the values into database.
 
 ## Discussion and Conclusion
-
+Overall, the method employed to accomplish the idea was pretty much accurate. But it can improved further by doing the following changes:
+1. Scraping the website directly so that realtime articles are fetched. But this would imply less clean data and demands more efforts into a collecting quality data.
 
 Thanks!
