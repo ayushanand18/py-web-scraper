@@ -21,7 +21,8 @@ id, url, headline, author, date (YYYY/MM/DD)
 ```
 
 ## Additional Guidelines
-+ Adhering to the coding guidelines, and OOP.
-+ Writing unit tests for the same.
++ [x] Adhering to the coding guidelines, and OOP.
++ [x] Writing unit tests for the same.
++ [x] Added additional exception handling in API.
 
 &copy; Ayush Anand 2023
