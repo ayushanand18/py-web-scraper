@@ -35,7 +35,7 @@ Overall, the directory structure is as follows:
 ## API Description
 ```json
 {
-    "base_url" = "https://scraper-theta.vercel.app/",
+    "base_url" : "https://scraper-theta.vercel.app/",
     "endpoints": {
         "/fetch_articles" : "Run articles fetch and dumping to csv, DB.",
         "/get_data": "Get all records from (limitted to top 100 records to save bandwidth).",

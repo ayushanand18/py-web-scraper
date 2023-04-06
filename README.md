@@ -5,7 +5,7 @@ A Python Web Scraper to scrape articles from [The Verge](theverge.com).
 Please read the [development notes](./notes/DEVELOPMENT.md) and the [METHOD](./notes/METHOD.md) in the [notes](./notes/) folder.
 
 ## Deployment
-The scraper has been deployed on [Vercel](http://scraper-theayushanand.vercel.app/) because AWS demanded a valid billing account.
+The scraper has been deployed on [Vercel](https://scraper-theayushanand.vercel.app/) because AWS demanded a valid billing account.
 
 ## To Do
 + [x] Read the headline, get the link of the article, the author, and the date of each of the articles found on "theverge.com"
