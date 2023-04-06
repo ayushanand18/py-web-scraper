@@ -2,7 +2,7 @@
 > This document details the algorithm (method) used to accomplish the task, and observations why this is a better method among other possible solutions (that came to my mind).
 
 ## Introduction
-We had to create a python based web scraper which would fetch articles from [theverge.com](theverge.com). We deployed the service on Vercel, which helped us in two ways:
+We had to create a python based web scraper which would fetch articles from [theverge.com](https://theverge.com). We deployed the service on Vercel, which helped us in two ways:
 1. The service could be run as a cron-job everyday.
 2. The fetched data can also be viewed easily with a web browser without logging into the web server or instance.
 
