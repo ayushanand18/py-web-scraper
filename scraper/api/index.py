@@ -7,7 +7,7 @@ from flask import request
 from flask import send_file
 from flask import jsonify
 
-from _main import VergeResponse
+from ._main import VergeResponse
 
 app = Flask(__name__)
 
